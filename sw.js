@@ -1,6 +1,7 @@
-/* Offline copy of the box. Online refreshes pick up edits to data/items.json. */
+/* Online, the page, script, styles, and saves come from the network.
+   Offline, the last copy that was opened is used. */
 
-const CACHE = "recipe-box-v4";
+const CACHE = "recipe-box-v5";
 
 const SHELL = [
   "./",
@@ -33,6 +34,17 @@ const SHELL = [
   "./images/gift-ideas.svg",
 ];
 
+function wantsNetworkFirst(url) {
+  const path = url.pathname;
+  return (
+    path.endsWith("/") ||
+    path.endsWith(".html") ||
+    path.endsWith(".js") ||
+    path.endsWith(".css") ||
+    path.endsWith("/items.json")
+  );
+}
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE).then((cache) => cache.addAll(SHELL)).then(() => self.skipWaiting())
@@ -55,14 +67,16 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith((async () => {
     try {
-      const response = await fetch(request);
-      if (response && response.ok && response.type === "basic") {
+      const response = wantsNetworkFirst(url)
+        ? await fetch(request.url, { cache: "reload", credentials: "same-origin" })
+        : await fetch(request);
+      if (response && response.ok && (response.type === "basic" || response.type === "default")) {
         const cache = await caches.open(CACHE);
         cache.put(request, response.clone());
       }
       return response;
     } catch (error) {
-      const cached = await caches.match(request);
+      const cached = await caches.match(request) || await caches.match(request, { ignoreSearch: true });
       if (cached) return cached;
       if (request.mode === "navigate") {
         const fallback = await caches.match("./index.html");

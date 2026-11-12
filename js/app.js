@@ -19,7 +19,11 @@ const boxWrap = document.getElementById("box-wrap");
 const countEl = document.getElementById("count");
 const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("q");
+const KNOWN_TABS = new Set(["recent", "recipe", "article", "meme", "note"]);
+const STORED_KEYS = ["recipe-box-tab", "recipe-box-query", "recipeBoxTab", "recipeBoxQuery", "tab", "query", "filter", "search"];
+
 const tabs = Array.from(document.querySelectorAll(".folder-tab"));
+const searchClear = document.getElementById("search-clear");
 
 let items = [];
 let filter = "recent";
@@ -92,8 +96,13 @@ function haystack(item) {
   ].join(" ").toLowerCase();
 }
 
+function viewFilter() {
+  return KNOWN_TABS.has(filter) ? filter : "recent";
+}
+
 function isMatch(item) {
-  if (filter !== "recent" && item.type !== filter) return false;
+  const current = viewFilter();
+  if (current !== "recent" && item.type !== current) return false;
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (!words.length) return true;
   const hay = haystack(item);
@@ -164,23 +173,57 @@ function detailHtml(item) {
 }
 
 function searchPrompt() {
-  if (filter === "recent") return "Search your saves";
-  return `Search ${typeMeta(filter).label.toLowerCase()}`;
+  const current = viewFilter();
+  if (current === "recent") return "Search your saves";
+  return `Search ${typeMeta(current).label.toLowerCase()}`;
+}
+
+function updateClear() {
+  if (!searchClear) return;
+  searchClear.hidden = searchInput.value.trim().length === 0;
+}
+
+function forgetStoredView() {
+  [localStorage, sessionStorage].forEach((store) => {
+    try {
+      STORED_KEYS.forEach((key) => store.removeItem(key));
+    } catch (error) {
+      /* Private browsing can block storage. The box still opens on Recent. */
+    }
+  });
+}
+
+function startFresh() {
+  filter = "recent";
+  query = "";
+  searchInput.value = "";
+  forgetStoredView();
+  updateClear();
+}
+
+function showAllSaves() {
+  filter = "recent";
+  query = "";
+  searchInput.value = "";
+  updateClear();
+  if (!itemIdFromHash()) render();
 }
 
 function render() {
+  const current = viewFilter();
   const visible = items.filter(isMatch).sort(byNewest);
   countEl.textContent = countLabel(visible.length);
   searchInput.placeholder = `${searchPrompt()}…`;
   searchInput.setAttribute("aria-label", searchPrompt());
+  updateClear();
 
   tabs.forEach((tab) => {
-    const selected = tab.dataset.type === filter;
+    const selected = tab.dataset.type === current;
     tab.classList.toggle("on", selected);
     tab.setAttribute("aria-pressed", String(selected));
   });
 
-  boxWrap.className = `box view-${filter}${filter === "recent" ? "" : " is-filtered"}`;
+  boxWrap.className = `box view-${current}${current === "recent" ? "" : " is-filtered"}`;
 
   if (!items.length) {
     box.innerHTML = '<p class="empty">Nothing has been saved yet. Add some to data/items.json.</p>';
@@ -188,12 +231,17 @@ function render() {
   }
 
   if (!visible.length) {
-    const where = filter === "recent" ? "your saves" : typeMeta(filter).label.toLowerCase();
-    box.innerHTML = `<div class="empty"><p>Nothing in ${esc(where)} matches that.</p></div>`;
+    const where = current === "recent" ? "your saves" : typeMeta(current).label.toLowerCase();
+    const message = query.trim()
+      ? `Nothing in ${where} matches that.`
+      : `Nothing saved in ${where} yet.`;
+    box.innerHTML =
+      `<div class="empty"><p>${esc(message)}</p>` +
+      `<button type="button" class="show-all" data-show-all>Show all saves</button></div>`;
     return;
   }
 
-  const view = filter === "recent" ? { id: "recent", label: "Recent" } : typeMeta(filter);
+  const view = current === "recent" ? { id: "recent", label: "Recent" } : typeMeta(current);
   box.innerHTML =
     `<section class="section ${esc(view.id)}" id="section-${esc(view.id)}">` +
       `<header class="divider"><h2 class="tab-label">${esc(view.label)}</h2><span class="sec-count">${visible.length}</span></header>` +
@@ -257,15 +305,34 @@ function goBack() {
 }
 
 function boot() {
+  startFresh();
+  requestAnimationFrame(() => {
+    if (document.activeElement === searchInput || !searchInput.value) return;
+    searchInput.value = "";
+    query = "";
+    updateClear();
+    if (ready && !itemIdFromHash()) render();
+  });
   searchForm.addEventListener("submit", (event) => event.preventDefault());
   searchInput.addEventListener("input", () => {
     query = searchInput.value;
+    updateClear();
+    if (!itemIdFromHash()) render();
+  });
+  searchClear.addEventListener("click", () => {
+    query = "";
+    searchInput.value = "";
+    updateClear();
+    searchInput.focus();
     if (!itemIdFromHash()) render();
   });
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      filter = tab.dataset.type;
+      filter = KNOWN_TABS.has(tab.dataset.type) ? tab.dataset.type : "recent";
+      query = "";
+      searchInput.value = "";
+      updateClear();
       if (!itemIdFromHash()) render();
     });
   });
@@ -276,7 +343,17 @@ function boot() {
       goBack();
       return;
     }
+    if (event.target.closest("[data-show-all]")) {
+      showAllSaves();
+      return;
+    }
     if (event.target.closest("a.index-card")) cameFromList = true;
+  });
+
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    startFresh();
+    if (ready && !itemIdFromHash()) render();
   });
 
   document.addEventListener("keydown", (event) => {
@@ -310,6 +387,12 @@ function boot() {
     });
 
   if ("serviceWorker" in navigator) {
+    let reloading = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (reloading) return;
+      reloading = true;
+      window.location.reload();
+    });
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("sw.js").catch(() => {});
     });
