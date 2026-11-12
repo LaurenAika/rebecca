@@ -1,6 +1,6 @@
 /* Offline copy of the box. Online refreshes pick up edits to data/items.json. */
 
-const CACHE = "recipe-box-v1";
+const CACHE = "recipe-box-v2";
 
 const SHELL = [
   "./",

@@ -220,7 +220,8 @@ h1 {
   z-index: 3;
 }
 .folder-tab:focus-visible,
-.lightbox-close:focus-visible,
+.back-btn:focus-visible,
+.open-original:focus-visible,
 .show-all:focus-visible {
   outline: 3px solid #C05A3A;
   outline-offset: 2px;
@@ -421,56 +422,95 @@ h1 {
   }
 }
 
-.lightbox {
-  margin: auto;
-  border: none;
-  padding: 14px;
-  width: min(460px, calc(100vw - 28px));
-  max-height: min(92dvh, 820px);
-  height: fit-content;
-  overflow: auto;
-  background: var(--paper);
-  color: var(--ink);
+body.is-detail .search,
+body.is-detail .folder-tabs,
+body.is-detail .count { display: none; }
+body.is-detail .box { margin-top: 4px; }
+body.is-detail .box-inner,
+body.is-detail .filter-all .box-inner,
+body.is-detail .filter-recipe .box-inner,
+body.is-detail .box.is-filtered .box-inner,
+body.is-detail .box.is-filtered:not(.filter-recipe) .box-inner {
+  display: block;
   border-radius: 18px;
-  box-shadow: 0 18px 50px rgba(58, 47, 40, .28);
+  padding: 14px 16px 18px;
 }
-.lightbox::backdrop { background: rgba(58, 47, 40, .48); }
-.lightbox-bar {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-.lightbox-close {
+
+.detail { max-width: 640px; margin: 0 auto; }
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 8px 18px 8px 12px;
+  margin-bottom: 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: #FFFCF7;
+  color: var(--ink);
   font-family: inherit;
   font-weight: 800;
-  font-size: 14px;
-  background: var(--bg);
-  color: var(--ink);
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  padding: 8px 14px;
-  min-height: 40px;
+  font-size: 16px;
   appearance: none;
   -webkit-appearance: none;
-  flex: 0 0 auto;
+  box-shadow: var(--shadow-soft);
 }
-.lightbox img {
+.back-icon { width: 18px; height: 18px; }
+.detail-card {
+  background: #FFFCF7;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 1px 0 rgba(58, 47, 40, .03);
+}
+.detail-card.recipe { border-top: 6px solid #C05A3A; }
+.detail-card.article { border-top: 6px solid #4F7A58; }
+.detail-card.meme { border-top: 6px solid #C4848A; }
+.detail-card.note { border-top: 6px solid #C4A35A; }
+.detail-photo {
   width: 100%;
   height: auto;
-  aspect-ratio: 1;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: 12px;
   background: var(--bg);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
-.lightbox .title { font-size: 26px; margin-bottom: 6px; }
-.lightbox .summary {
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.45;
+.detail-card.meme .detail-photo {
+  aspect-ratio: 1;
+  max-height: 520px;
+}
+.detail-card .meta { margin-bottom: 8px; }
+.detail-card .title { font-size: 30px; margin: 0 0 10px; }
+.detail-card .title:focus,
+.empty:focus { outline: none; }
+.detail-copy {
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.5;
   font-weight: 500;
+}
+.open-original {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 56px;
+  margin-top: 20px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 18px;
+  text-decoration: none;
+  text-align: center;
+}
+.detail-card.recipe .open-original { background: #C05A3A; color: #FFFBF6; }
+.detail-card.article .open-original { background: #3F6A46; color: #FFFBF6; }
+.detail-card.meme .open-original { background: #A85A64; color: #FFFBF6; }
+.detail-card.note .open-original { background: #C4A35A; color: #3A2F28; }
+@media (hover: hover) {
+  .open-original:hover { filter: brightness(1.05); }
+  .back-btn:hover { background: #fff; }
 }
 
 .noscript {
@@ -516,6 +556,20 @@ h1 {
   .thumb, .thumb img { width: 60px; height: 60px; }
   .index-card .title { font-size: 15px; }
   .index-card .summary { font-size: 13px; }
-  .lightbox { padding: 12px; }
-  .lightbox .title { font-size: 22px; }
+  body.is-detail .box-inner,
+  body.is-detail .filter-all .box-inner,
+  body.is-detail .filter-recipe .box-inner,
+  body.is-detail .box.is-filtered .box-inner,
+  body.is-detail .box.is-filtered:not(.filter-recipe) .box-inner {
+    border-radius: 14px;
+    padding: 12px 12px 16px;
+  }
+  .back-btn {
+    position: sticky;
+    top: calc(8px + env(safe-area-inset-top, 0px));
+    z-index: 4;
+  }
+  .detail-card .title { font-size: 26px; }
+  .detail-copy { font-size: 17px; }
+  .detail-photo { aspect-ratio: 1; }
 }

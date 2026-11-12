@@ -11,21 +11,22 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 
 const PIN_ICON = '<svg class="pin-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8.8 1.5 10 5.2l3.8.3-2.9 2.5.9 3.7L8 9.7 4.2 11.7l.9-3.7-2.9-2.5 3.8-.3L8 1.5Z"/></svg>';
 
+const PAGE_TITLE = "Rebecca’s Saves";
+const BACK_ICON = '<svg class="back-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
 const box = document.getElementById("box");
 const boxWrap = document.getElementById("box-wrap");
 const countEl = document.getElementById("count");
 const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("q");
 const tabs = Array.from(document.querySelectorAll(".folder-tab"));
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightbox-img");
-const lightboxTitle = document.getElementById("lightbox-title");
-const lightboxSummary = document.getElementById("lightbox-summary");
-const lightboxMeta = document.getElementById("lightbox-meta");
 
 let items = [];
 let filter = "all";
 let query = "";
+let ready = false;
+let cameFromList = false;
+let listScroll = 0;
 
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
@@ -115,18 +116,45 @@ function metaHtml(item) {
   return `<div class="meta"><span class="tag ${esc(item.type)}">${esc(meta.tag)}</span>${dateHtml}${note}</div>`;
 }
 
+function itemHash(id) {
+  return `#item/${encodeURIComponent(id)}`;
+}
+
+function itemIdFromHash() {
+  const match = /^#item\/(.+)$/.exec(location.hash || "");
+  if (!match) return "";
+  try {
+    return decodeURIComponent(match[1]);
+  } catch (error) {
+    return "";
+  }
+}
+
 function cardHtml(item) {
   const image = item.image
     ? `<div class="thumb"><img src="${esc(item.image)}" alt="" width="64" height="64"></div>`
     : `<div class="thumb thumb-fallback" aria-hidden="true"></div>`;
   const body = `<div class="body">${metaHtml(item)}<h3 class="title">${esc(item.title)}</h3><p class="summary">${esc(item.summary)}</p></div>`;
-  if (item.type === "meme") {
-    return `<button type="button" class="index-card" data-meme="${esc(item.id)}">${image}${body}</button>`;
-  }
-  if (item.url) {
-    return `<a class="index-card" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">${image}${body}</a>`;
-  }
-  return `<article class="index-card">${image}${body}</article>`;
+  return `<a class="index-card" href="${esc(itemHash(item.id))}">${image}${body}</a>`;
+}
+
+function detailHtml(item) {
+  const alt = item.type === "meme" ? esc(item.title) : "";
+  const photo = item.image
+    ? `<img class="detail-photo" src="${esc(item.image)}" alt="${alt}" width="800" height="800">`
+    : "";
+  const original = item.url
+    ? `<a class="open-original" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">Open the original</a>`
+    : "";
+  return (
+    `<div class="detail">` +
+      `<button type="button" class="back-btn" data-back>${BACK_ICON}Back</button>` +
+      `<article class="detail-card ${esc(item.type)}">` +
+        `${photo}${metaHtml(item)}<h2 class="title">${esc(item.title)}</h2>` +
+        `<p class="detail-copy">${esc(item.summary)}</p>${original}` +
+      `</article>` +
+    `</div>`
+  );
 }
 
 function render() {
@@ -180,22 +208,59 @@ function render() {
   box.innerHTML = parts.join("");
 }
 
-function openMeme(id) {
+function focusDetail() {
+  const title = box.querySelector(".detail-card .title") || box.querySelector(".empty");
+  if (!title) return;
+  title.setAttribute("tabindex", "-1");
+  title.focus({ preventScroll: true });
+}
+
+function showList() {
+  document.body.classList.remove("is-detail");
+  document.title = PAGE_TITLE;
+  render();
+}
+
+function showDetail(id) {
   const item = items.find((entry) => entry.id === id);
-  if (!item) return;
-  lightboxMeta.innerHTML = metaHtml(item);
-  lightboxTitle.textContent = item.title;
-  lightboxSummary.textContent = item.summary;
-  if (item.image) {
-    lightboxImg.src = item.image;
-    lightboxImg.alt = item.title;
-    lightboxImg.hidden = false;
-  } else {
-    lightboxImg.removeAttribute("src");
-    lightboxImg.alt = "";
-    lightboxImg.hidden = true;
+  document.body.classList.add("is-detail");
+  if (!item) {
+    document.title = PAGE_TITLE;
+    box.innerHTML =
+      `<div class="detail">` +
+        `<button type="button" class="back-btn" data-back>${BACK_ICON}Back</button>` +
+        `<p class="empty">That save isn’t in the box.</p>` +
+      `</div>`;
+    focusDetail();
+    return;
   }
-  if (!lightbox.open) lightbox.showModal();
+  document.title = `${item.title} — ${PAGE_TITLE}`;
+  box.innerHTML = detailHtml(item);
+  focusDetail();
+}
+
+function syncView() {
+  if (!ready) return;
+  const id = itemIdFromHash();
+  if (id) {
+    if (!document.body.classList.contains("is-detail")) listScroll = window.scrollY;
+    showDetail(id);
+    window.scrollTo(0, 0);
+    return;
+  }
+  const returning = document.body.classList.contains("is-detail");
+  showList();
+  if (returning) window.scrollTo(0, listScroll);
+}
+
+function goBack() {
+  if (cameFromList) {
+    cameFromList = false;
+    history.back();
+    return;
+  }
+  history.replaceState({ box: "list" }, "", location.pathname + location.search);
+  showList();
 }
 
 function boot() {
@@ -203,33 +268,39 @@ function boot() {
   searchInput.addEventListener("input", () => {
     query = searchInput.value;
     if (query.trim()) filter = "all";
-    render();
+    if (!itemIdFromHash()) render();
   });
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       const type = tab.dataset.type;
       filter = filter === type ? "all" : type;
-      render();
+      if (!itemIdFromHash()) render();
     });
   });
 
   box.addEventListener("click", (event) => {
+    if (event.target.closest("[data-back]")) {
+      event.preventDefault();
+      goBack();
+      return;
+    }
     const showAll = event.target.closest("[data-show-all]");
     if (showAll) {
       filter = "all";
       render();
       return;
     }
-    const meme = event.target.closest("[data-meme]");
-    if (meme) openMeme(meme.dataset.meme);
+    if (event.target.closest("a.index-card")) cameFromList = true;
   });
 
-  document.getElementById("lightbox-close").addEventListener("click", () => {
-    lightbox.close();
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && itemIdFromHash()) goBack();
   });
-  lightbox.addEventListener("click", (event) => {
-    if (event.target === lightbox) lightbox.close();
+
+  window.addEventListener("hashchange", () => {
+    if (!itemIdFromHash()) cameFromList = false;
+    syncView();
   });
 
   fetch("data/items.json")
@@ -240,7 +311,8 @@ function boot() {
     .then((data) => {
       if (!Array.isArray(data)) throw new Error("Saves file is not a list");
       items = data.map(normalize).filter(Boolean);
-      render();
+      ready = true;
+      syncView();
     })
     .catch(() => {
       countEl.textContent = "Saved things";

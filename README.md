@@ -15,17 +15,17 @@ Each item is one object:
 | `id` | A unique short name, such as `lemon-herb-roast-chicken`. |
 | `type` | One of `recipe`, `article`, `meme`, or `note`. |
 | `title` | The card heading. |
-| `summary` | One short line under the title. |
+| `summary` | A sentence or two. The card shows the first line; the detail page shows all of it. |
 | `note` | Optional personal reminder, shown as a yellow tag (for example `show Mom`). Use `""` to leave it off. |
 | `date_saved` | The day it was saved, as `YYYY-MM-DD`. It is shown like “Nov 8”. |
-| `url` | The link that opens when a recipe, article, or note is tapped. |
+| `url` | The original link. It opens from the button on the detail page, in a new tab. |
 | `image` | A picture in this repo, such as `images/lemon-herb-roast-chicken.svg`. |
 
 Cards stay in the order they appear in the file, grouped under their type. Save the file and refresh. While the phone or laptop is online, a refresh shows the edit. Offline, the box shows the last version that was opened.
 
 Pictures are drawings in `images/`. Add another SVG or a small PNG and point `image` at it. Do not use hotlinked photos.
 
-Memes open a larger view of their picture. The other cards open `url`.
+Tapping a card opens it inside the box. The address looks like `#item/lemon-herb-roast-chicken`, so it can be shared, and the phone’s back gesture returns to the list. Back also keeps the tab and the search as they were. The big button on that page opens `url`.
 
 The type on the page is Fraunces and Nunito, included under the SIL Open Font License. See `fonts/OFL-Fraunces.txt` and `fonts/OFL-Nunito.txt`.
 
