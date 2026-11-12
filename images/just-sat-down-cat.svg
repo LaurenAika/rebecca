@@ -1,0 +1,44 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect width="400" height="400" fill="#F0D4D6"/>
+  <circle cx="80" cy="80" r="70" fill="#F8E4E6"/>
+  <ellipse cx="200" cy="360" rx="170" ry="36" fill="#E5C0C4"/>
+  <!-- mug -->
+  <g transform="translate(58 250)">
+    <path d="M20 20h70v70c0 22-18 36-35 36s-35-14-35-36Z" fill="#FBF6EE"/>
+    <path d="M20 20h70v18H20Z" fill="#E8D8C8"/>
+    <path d="M90 36c22 0 28 18 28 30s-8 28-28 30" fill="none" stroke="#FBF6EE" stroke-width="10"/>
+    <path d="M40 8c8-16 32-16 40 0" fill="none" stroke="#C9D6C4" stroke-width="5" stroke-linecap="round"/>
+    <path d="M52 6c6-12 20-12 26 2" fill="none" stroke="#C9D6C4" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- cat body -->
+  <ellipse cx="230" cy="300" rx="90" ry="70" fill="#E8B07A"/>
+  <ellipse cx="230" cy="310" rx="70" ry="50" fill="#F0C396"/>
+  <!-- haunch -->
+  <ellipse cx="292" cy="312" rx="36" ry="50" fill="#E0A06A"/>
+  <!-- tail -->
+  <path d="M318 300c40-10 62 30 48 70" fill="none" stroke="#E8B07A" stroke-width="18" stroke-linecap="round"/>
+  <path d="M318 300c40-10 62 30 48 70" fill="none" stroke="#F0C396" stroke-width="10" stroke-linecap="round"/>
+  <!-- paws -->
+  <ellipse cx="186" cy="360" rx="22" ry="14" fill="#F0C396"/>
+  <ellipse cx="248" cy="362" rx="22" ry="14" fill="#F0C396"/>
+  <!-- head -->
+  <circle cx="200" cy="210" r="62" fill="#E8B07A"/>
+  <circle cx="200" cy="218" r="52" fill="#F0C396"/>
+  <!-- ears -->
+  <path d="M148 188 132 116l50 40Z" fill="#E8B07A"/>
+  <path d="M148 180 140 130l36 32Z" fill="#F4C4C8"/>
+  <path d="M252 188 268 116l-50 40Z" fill="#E8B07A"/>
+  <path d="M252 180 260 130l-36 32Z" fill="#F4C4C8"/>
+  <!-- face -->
+  <path d="M178 214c6 8 18 8 24 0" fill="none" stroke="#5A4030" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M222 214c6 8 18 8 24 0" fill="none" stroke="#5A4030" stroke-width="3.2" stroke-linecap="round"/>
+  <ellipse cx="200" cy="230" rx="7" ry="5" fill="#E8A0A0"/>
+  <path d="M200 235v10" stroke="#5A4030" stroke-width="2" stroke-linecap="round"/>
+  <path d="M200 245c-8 8-16 8-20 4" fill="none" stroke="#5A4030" stroke-width="2" stroke-linecap="round"/>
+  <path d="M200 245c8 8 16 8 20 4" fill="none" stroke="#5A4030" stroke-width="2" stroke-linecap="round"/>
+  <!-- whiskers -->
+  <g stroke="#A07860" stroke-width="1.6" fill="none" stroke-linecap="round">
+    <path d="M168 228h-48M166 238h-46"/>
+    <path d="M232 228h48M234 238h46"/>
+  </g>
+</svg>

@@ -1,0 +1,33 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect width="400" height="400" fill="#E8D6A4"/>
+  <circle cx="320" cy="60" r="80" fill="#F3E5B8"/>
+  <ellipse cx="200" cy="350" rx="160" ry="24" fill="#D8C484"/>
+  <!-- book -->
+  <g transform="rotate(-18 112 250)">
+    <rect x="50" y="210" width="120" height="86" rx="4" fill="#3D5A6C"/>
+    <rect x="50" y="210" width="12" height="86" fill="#2C4452"/>
+    <rect x="72" y="230" width="70" height="6" rx="2" fill="#C5D4E0"/>
+    <rect x="72" y="242" width="48" height="5" rx="2" fill="#C5D4E0" opacity=".7"/>
+    <!-- little bird on cover -->
+    <ellipse cx="106" cy="268" rx="16" ry="10" fill="#E8D6A4"/>
+    <circle cx="118" cy="262" r="6" fill="#E8D6A4"/>
+    <path d="M124 262l8 2" stroke="#C4A35A" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <!-- wool socks -->
+  <g transform="rotate(16 300 280)">
+    <path d="M260 220h40c8 0 16 8 16 18v70c0 18 16 32 34 28 10-2 18 8 10 18-16 18-54 16-66-8V238c0-10-8-18-18-18h-16Z" fill="#C05A3A"/>
+    <path d="M268 236h28M268 248h28M268 260h28" stroke="#F8E4D8" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- gift box front and center -->
+  <g transform="translate(0 -10)">
+    <rect x="148" y="168" width="130" height="96" rx="4" fill="#6B8F71"/>
+    <rect x="148" y="206" width="130" height="16" fill="#F3E9CC"/>
+    <rect x="204" y="168" width="16" height="96" fill="#F3E9CC"/>
+    <rect x="140" y="148" width="146" height="24" rx="3" fill="#5A7A60"/>
+    <rect x="140" y="156" width="146" height="8" fill="#F3E9CC"/>
+    <!-- bow -->
+    <ellipse cx="186" cy="148" rx="22" ry="16" fill="#C05A3A"/>
+    <ellipse cx="226" cy="148" rx="22" ry="16" fill="#C05A3A"/>
+    <circle cx="206" cy="150" r="9" fill="#A4482C"/>
+  </g>
+</svg>

@@ -1,0 +1,55 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect width="400" height="400" fill="#E8D3B0"/>
+  <circle cx="340" cy="50" r="90" fill="#F3E3C4"/>
+  <!-- bowl -->
+  <ellipse cx="200" cy="262" rx="150" ry="96" fill="#6A3E28"/>
+  <ellipse cx="200" cy="250" rx="140" ry="90" fill="#8A5A3C"/>
+  <ellipse cx="200" cy="238" rx="132" ry="80" fill="#C4845A"/>
+  <ellipse cx="200" cy="228" rx="118" ry="70" fill="#F4E0C0"/>
+  <ellipse cx="200" cy="218" rx="108" ry="48" fill="#F8E8C8"/>
+  <!-- pasta swirls -->
+  <g fill="none" stroke="#E8C878" stroke-width="8" stroke-linecap="round">
+    <path d="M120 220c20-30 50-20 60 8s30 30 58 6"/>
+    <path d="M150 248c18-24 44-10 50 10 10 28 40 20 60-4"/>
+    <path d="M110 242c30-8 40 22 70 10 24-10 44 18 80 4"/>
+    <path d="M170 200c10 20 40 16 56-4"/>
+  </g>
+  <g fill="none" stroke="#F0D89A" stroke-width="5" stroke-linecap="round">
+    <path d="M130 228c16-20 40-12 48 8"/>
+    <path d="M200 236c14-16 36-6 44 10"/>
+  </g>
+  <!-- mushrooms -->
+  <g fill="#8B5A3C">
+    <ellipse cx="168" cy="216" rx="22" ry="10"/>
+    <rect x="160" y="216" width="16" height="16" rx="4"/>
+    <ellipse cx="230" cy="206" rx="18" ry="8"/>
+    <rect x="223" y="206" width="14" height="14" rx="3"/>
+    <ellipse cx="256" cy="240" rx="16" ry="7"/>
+    <rect x="250" y="240" width="12" height="12" rx="3"/>
+  </g>
+  <g fill="#C4895C">
+    <ellipse cx="168" cy="214" rx="18" ry="7"/>
+    <ellipse cx="230" cy="204" rx="14" ry="6"/>
+    <ellipse cx="256" cy="238" rx="12" ry="5"/>
+  </g>
+  <!-- herbs and parmesan -->
+  <circle cx="190" cy="250" r="3" fill="#4F7A58"/>
+  <circle cx="210" cy="262" r="2.4" fill="#4F7A58"/>
+  <circle cx="148" cy="256" r="2.2" fill="#4F7A58"/>
+  <circle cx="240" cy="258" r="2" fill="#4F7A58"/>
+  <circle cx="200" cy="230" r="2" fill="#FBF6EE"/>
+  <circle cx="176" cy="240" r="1.6" fill="#FBF6EE"/>
+  <circle cx="222" cy="246" r="1.8" fill="#FBF6EE"/>
+  <!-- steam -->
+  <g fill="none" stroke="#FBF6EE" stroke-width="3" stroke-linecap="round" opacity=".85">
+    <path d="M170 170c8-16-8-24 0-40"/>
+    <path d="M200 158c8-16-8-24 0-44"/>
+    <path d="M230 170c8-16-8-22 0-38"/>
+  </g>
+  <!-- fork -->
+  <g transform="rotate(28 320 200)" stroke="#C0B8A8" fill="none" stroke-linecap="round">
+    <path d="M320 120v130" stroke-width="6"/>
+    <path d="M308 120v40M320 120v40M332 120v40" stroke-width="4"/>
+    <path d="M308 160h24" stroke-width="4"/>
+  </g>
+</svg>
