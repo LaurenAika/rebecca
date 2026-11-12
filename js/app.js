@@ -22,7 +22,7 @@ const searchInput = document.getElementById("q");
 const tabs = Array.from(document.querySelectorAll(".folder-tab"));
 
 let items = [];
-let filter = "all";
+let filter = "recent";
 let query = "";
 let ready = false;
 let cameFromList = false;
@@ -93,15 +93,21 @@ function haystack(item) {
 }
 
 function isMatch(item) {
-  if (filter !== "all" && item.type !== filter) return false;
+  if (filter !== "recent" && item.type !== filter) return false;
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (!words.length) return true;
   const hay = haystack(item);
   return words.every((word) => hay.includes(word));
 }
 
+function byNewest(a, b) {
+  if (a.date_saved !== b.date_saved) return a.date_saved < b.date_saved ? 1 : -1;
+  return b.order - a.order;
+}
+
 function countLabel(total) {
-  if (total === 0 && (query.trim() || filter !== "all")) return "No matches";
+  if (total === 0 && query.trim()) return "No matches";
+  if (total === 0) return "Nothing saved yet";
   if (total === 1) return "1 saved thing";
   return `${total} saved things`;
 }
@@ -135,7 +141,7 @@ function cardHtml(item) {
     ? `<div class="thumb"><img src="${esc(item.image)}" alt="" width="64" height="64"></div>`
     : `<div class="thumb thumb-fallback" aria-hidden="true"></div>`;
   const body = `<div class="body">${metaHtml(item)}<h3 class="title">${esc(item.title)}</h3><p class="summary">${esc(item.summary)}</p></div>`;
-  return `<a class="index-card" href="${esc(itemHash(item.id))}">${image}${body}</a>`;
+  return `<a class="index-card ${esc(item.type)}" href="${esc(itemHash(item.id))}">${image}${body}</a>`;
 }
 
 function detailHtml(item) {
@@ -157,55 +163,42 @@ function detailHtml(item) {
   );
 }
 
+function searchPrompt() {
+  if (filter === "recent") return "Search your saves";
+  return `Search ${typeMeta(filter).label.toLowerCase()}`;
+}
+
 function render() {
-  const visible = items.filter(isMatch);
+  const visible = items.filter(isMatch).sort(byNewest);
   countEl.textContent = countLabel(visible.length);
+  searchInput.placeholder = `${searchPrompt()}…`;
+  searchInput.setAttribute("aria-label", searchPrompt());
 
   tabs.forEach((tab) => {
-    const selected = filter !== "all" && tab.dataset.type === filter;
-    const front = filter === "all" ? tab.dataset.type === "recipe" : selected;
-    tab.classList.toggle("on", front);
+    const selected = tab.dataset.type === filter;
+    tab.classList.toggle("on", selected);
     tab.setAttribute("aria-pressed", String(selected));
   });
 
-  boxWrap.className = `box view-${filter}${filter === "all" ? "" : " is-filtered"}`;
+  boxWrap.className = `box view-${filter}${filter === "recent" ? "" : " is-filtered"}`;
 
   if (!items.length) {
     box.innerHTML = '<p class="empty">Nothing has been saved yet. Add some to data/items.json.</p>';
     return;
   }
 
-  const sections = TYPES.map((type) => {
-    const group = visible.filter((item) => item.type === type.id);
-    return { type, group };
-  }).filter((section) => section.group.length);
-
-  const parts = [];
-  if (filter !== "all") {
-    const label = typeMeta(filter).label.toLowerCase();
-    parts.push(
-      `<div class="showing-bar"><span>Showing ${esc(label)}</span><button type="button" class="show-all" data-show-all>Show everything</button></div>`
-    );
+  if (!visible.length) {
+    const where = filter === "recent" ? "your saves" : typeMeta(filter).label.toLowerCase();
+    box.innerHTML = `<div class="empty"><p>Nothing in ${esc(where)} matches that.</p></div>`;
+    return;
   }
 
-  if (!sections.length) {
-    const again = filter !== "all"
-      ? '<button type="button" class="show-all" data-show-all>Show everything</button>'
-      : "";
-    parts.push(`<div class="empty"><p>Nothing in the box matches that.</p>${again}</div>`);
-  } else {
-    sections.forEach(({ type, group }) => {
-      const cards = group.map(cardHtml).join("");
-      parts.push(
-        `<section class="section ${esc(type.id)}" id="section-${esc(type.id)}">` +
-          `<header class="divider"><h2 class="tab-label">${esc(type.label)}</h2><span class="sec-count">${group.length}</span></header>` +
-          `<div class="list">${cards}</div>` +
-        `</section>`
-      );
-    });
-  }
-
-  box.innerHTML = parts.join("");
+  const view = filter === "recent" ? { id: "recent", label: "Recent" } : typeMeta(filter);
+  box.innerHTML =
+    `<section class="section ${esc(view.id)}" id="section-${esc(view.id)}">` +
+      `<header class="divider"><h2 class="tab-label">${esc(view.label)}</h2><span class="sec-count">${visible.length}</span></header>` +
+      `<div class="list">${visible.map(cardHtml).join("")}</div>` +
+    `</section>`;
 }
 
 function focusDetail() {
@@ -267,14 +260,12 @@ function boot() {
   searchForm.addEventListener("submit", (event) => event.preventDefault());
   searchInput.addEventListener("input", () => {
     query = searchInput.value;
-    if (query.trim()) filter = "all";
     if (!itemIdFromHash()) render();
   });
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      const type = tab.dataset.type;
-      filter = filter === type ? "all" : type;
+      filter = tab.dataset.type;
       if (!itemIdFromHash()) render();
     });
   });
@@ -283,12 +274,6 @@ function boot() {
     if (event.target.closest("[data-back]")) {
       event.preventDefault();
       goBack();
-      return;
-    }
-    const showAll = event.target.closest("[data-show-all]");
-    if (showAll) {
-      filter = "all";
-      render();
       return;
     }
     if (event.target.closest("a.index-card")) cameFromList = true;
@@ -310,7 +295,12 @@ function boot() {
     })
     .then((data) => {
       if (!Array.isArray(data)) throw new Error("Saves file is not a list");
-      items = data.map(normalize).filter(Boolean);
+      items = data.map((raw, index) => {
+        const item = normalize(raw);
+        if (!item) return null;
+        item.order = index;
+        return item;
+      }).filter(Boolean);
       ready = true;
       syncView();
     })

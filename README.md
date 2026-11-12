@@ -21,7 +21,7 @@ Each item is one object:
 | `url` | The original link. It opens from the button on the detail page, in a new tab. |
 | `image` | A picture in this repo, such as `images/lemon-herb-roast-chicken.svg`. |
 
-Cards stay in the order they appear in the file, grouped under their type. Save the file and refresh. While the phone or laptop is online, a refresh shows the edit. Offline, the box shows the last version that was opened.
+The box opens on Recent, which lists every save with the newest day first. If two saves share a day, the one lower in this file comes first. Recipes, Articles, Memes, and Notes each show only that type, newest first. Search looks through the tab that is open: everything from Recent, or just that type from the others. Save the file and refresh. While the phone or laptop is online, a refresh shows the edit. Offline, the box shows the last version that was opened.
 
 Pictures are drawings in `images/`. Add another SVG or a small PNG and point `image` at it. Do not use hotlinked photos.
 
