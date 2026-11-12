@@ -1,0 +1,26 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect width="400" height="400" fill="#E4D4E8"/>
+  <circle cx="40" cy="40" r="70" fill="#F0E4F2"/>
+  <circle cx="380" cy="360" r="80" fill="#D4C0DC"/>
+  <!-- large phone, almost fills the frame -->
+  <rect x="86" y="8" width="228" height="384" rx="36" fill="#3A2F28"/>
+  <rect x="96" y="22" width="208" height="356" rx="26" fill="#FBF6EE"/>
+  <rect x="168" y="30" width="64" height="8" rx="4" fill="#3A2F28"/>
+  <!-- enthusiastic outgoing bubbles -->
+  <rect x="128" y="62" width="150" height="44" rx="18" fill="#C4848A"/>
+  <rect x="144" y="74" width="92" height="7" rx="3.5" fill="#FBF6EE" opacity=".92"/>
+  <rect x="144" y="86" width="64" height="7" rx="3.5" fill="#FBF6EE" opacity=".7"/>
+  <rect x="128" y="118" width="166" height="70" rx="18" fill="#C4848A"/>
+  <rect x="144" y="134" width="120" height="7" rx="3.5" fill="#FBF6EE" opacity=".92"/>
+  <rect x="144" y="146" width="130" height="7" rx="3.5" fill="#FBF6EE" opacity=".8"/>
+  <rect x="144" y="158" width="86" height="7" rx="3.5" fill="#FBF6EE" opacity=".65"/>
+  <!-- little recipe bowl doodle in the bubble -->
+  <ellipse cx="268" cy="168" rx="12" ry="6" fill="#F8E4D8" opacity=".9"/>
+  <ellipse cx="268" cy="164" rx="8" ry="4" fill="#FBF6EE" opacity=".8"/>
+  <!-- typing dots, then silence -->
+  <circle cx="180" cy="214" r="5" fill="#C4B4C0"/>
+  <circle cx="198" cy="214" r="5" fill="#C4B4C0"/>
+  <circle cx="216" cy="214" r="5" fill="#C4B4C0"/>
+  <rect x="170" y="248" width="56" height="8" rx="4" fill="#E6D9C8"/>
+  <rect x="172" y="358" width="56" height="6" rx="3" fill="#3A2F28" opacity=".25"/>
+</svg>

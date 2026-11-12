@@ -1,0 +1,102 @@
+[
+  {
+    "id": "lemon-herb-roast-chicken",
+    "type": "recipe",
+    "title": "Lemon herb roast chicken",
+    "summary": "A simple roast with lemon, garlic and thyme.",
+    "note": "for Sunday dinner",
+    "date_saved": "2026-11-08",
+    "url": "https://example.com/recipes/lemon-herb-roast-chicken",
+    "image": "images/lemon-herb-roast-chicken.svg"
+  },
+  {
+    "id": "one-pot-mushroom-pasta",
+    "type": "recipe",
+    "title": "One-pot mushroom pasta",
+    "summary": "Creamy, cozy, and ready in about thirty minutes.",
+    "note": "weeknight favourite",
+    "date_saved": "2026-11-05",
+    "url": "https://example.com/recipes/one-pot-mushroom-pasta",
+    "image": "images/one-pot-mushroom-pasta.svg"
+  },
+  {
+    "id": "blueberry-oat-muffins",
+    "type": "recipe",
+    "title": "Blueberry oat muffins",
+    "summary": "Hearty muffins that keep well and freeze even better.",
+    "note": "freeze a batch",
+    "date_saved": "2026-11-04",
+    "url": "https://example.com/recipes/blueberry-oat-muffins",
+    "image": "images/blueberry-oat-muffins.svg"
+  },
+  {
+    "id": "houseplants-winter",
+    "type": "article",
+    "title": "Houseplants that thrive in winter",
+    "summary": "A gentle guide to keeping greenery happy when the days get short.",
+    "note": "",
+    "date_saved": "2026-11-10",
+    "url": "https://example.com/articles/houseplants-that-thrive-in-winter",
+    "image": "images/houseplants-winter.svg"
+  },
+  {
+    "id": "kingston-old-town",
+    "type": "article",
+    "title": "A walking tour of Kingston’s old town",
+    "summary": "Five easy stops, good coffee, and a view of the water.",
+    "note": "",
+    "date_saved": "2026-11-09",
+    "url": "https://example.com/articles/walking-tour-old-town",
+    "image": "images/kingston-old-town.svg"
+  },
+  {
+    "id": "good-nights-sleep",
+    "type": "article",
+    "title": "The science of a good night’s sleep",
+    "summary": "What actually helps, without the usual fluff.",
+    "note": "",
+    "date_saved": "2026-11-03",
+    "url": "https://example.com/articles/science-of-a-good-nights-sleep",
+    "image": "images/good-nights-sleep.svg"
+  },
+  {
+    "id": "group-chat-quiet",
+    "type": "meme",
+    "title": "When the group chat goes quiet",
+    "summary": "The silence after you share a very enthusiastic recipe.",
+    "note": "send to Sarah",
+    "date_saved": "2026-11-12",
+    "url": "https://example.com/memes/group-chat-goes-quiet",
+    "image": "images/group-chat-quiet.svg"
+  },
+  {
+    "id": "just-sat-down-cat",
+    "type": "meme",
+    "title": "The “I just sat down” cat",
+    "summary": "That look when someone asks for a favour the second you sit down.",
+    "note": "show Mom",
+    "date_saved": "2026-11-11",
+    "url": "https://example.com/memes/i-just-sat-down-cat",
+    "image": "images/just-sat-down-cat.svg"
+  },
+  {
+    "id": "library-holds",
+    "type": "note",
+    "title": "Library holds to pick up",
+    "summary": "The Thursday Murder Club, a knitting book, and that baking memoir.",
+    "note": "",
+    "date_saved": "2026-11-07",
+    "url": "https://example.com/notes/library-holds",
+    "image": "images/library-holds.svg"
+  },
+  {
+    "id": "gift-ideas",
+    "type": "note",
+    "title": "Gift ideas for Dad’s birthday",
+    "summary": "Wool socks, a new bird book, and maybe tickets to a game.",
+    "note": "",
+    "date_saved": "2026-11-06",
+    "url": "https://example.com/notes/gift-ideas",
+    "image": "images/gift-ideas.svg"
+  }
+]
