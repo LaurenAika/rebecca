@@ -168,7 +168,7 @@ function render() {
     tab.setAttribute("aria-pressed", String(selected));
   });
 
-  boxWrap.className = `box filter-${filter}${filter === "all" ? "" : " is-filtered"}`;
+  boxWrap.className = `box view-${filter}${filter === "all" ? "" : " is-filtered"}`;
 
   if (!items.length) {
     box.innerHTML = '<p class="empty">Nothing has been saved yet. Add some to data/items.json.</p>';
@@ -184,7 +184,7 @@ function render() {
   if (filter !== "all") {
     const label = typeMeta(filter).label.toLowerCase();
     parts.push(
-      `<div class="filter-note"><span>Showing ${esc(label)}</span><button type="button" class="show-all" data-show-all>Show everything</button></div>`
+      `<div class="showing-bar"><span>Showing ${esc(label)}</span><button type="button" class="show-all" data-show-all>Show everything</button></div>`
     );
   }
 
