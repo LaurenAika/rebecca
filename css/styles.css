@@ -129,10 +129,10 @@ a, button { touch-action: manipulation; }
 }
 .top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 .brand {
   display: flex;
@@ -154,12 +154,6 @@ h1 {
   line-height: 1.1;
   font-optical-sizing: auto;
 }
-.sub {
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 3px;
-}
 .count {
   color: var(--muted);
   font-size: 13px;
@@ -169,7 +163,7 @@ h1 {
   border-radius: 999px;
   padding: 6px 12px;
   white-space: nowrap;
-  margin-top: 6px;
+  margin-top: 0;
   flex: 0 0 auto;
 }
 
@@ -595,8 +589,7 @@ body.is-detail .box.is-filtered:not(.view-recent) .box-inner {
   }
   .mark { width: 34px; height: 34px; }
   h1 { font-size: 24px; }
-  .sub { font-size: 12.5px; }
-  .count { font-size: 12px; padding: 5px 10px; margin-top: 2px; }
+  .count { font-size: 12px; padding: 5px 10px; margin-top: 0; }
   .top { margin-bottom: 14px; }
   .search { padding: 10px 14px; font-size: 16px; }
   .box {
