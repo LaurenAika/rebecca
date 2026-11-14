@@ -1,7 +1,7 @@
 {
   "id": "./",
-  "name": "Rebecca's Box",
-  "short_name": "Recipe Box",
+  "name": "Rebecca’s library",
+  "short_name": "Library",
   "description": "Rebecca’s saved recipes, articles, memes, and notes, sorted like a cookbook.",
   "start_url": "./",
   "scope": "./",

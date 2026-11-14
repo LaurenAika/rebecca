@@ -1,7 +1,7 @@
 /* Online, the page, script, styles, and saves come from the network.
    Offline, the last copy that was opened is used. */
 
-const CACHE = "recipe-box-v7";
+const CACHE = "rebeccas-library-v8";
 
 const SHELL = [
   "./",

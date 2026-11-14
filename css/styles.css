@@ -633,3 +633,8 @@ body.is-detail .box.is-filtered:not(.view-recent) .box-inner {
   .detail-copy { font-size: 17px; }
   .detail-photo { aspect-ratio: 1; }
 }
+
+/* The longer library title stays on one line beside the count on a phone. */
+@media (max-width: 400px) {
+  h1 { font-size: 22px; }
+}

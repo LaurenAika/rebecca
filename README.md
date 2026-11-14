@@ -1,6 +1,6 @@
-# Rebecca’s Saves
+# Rebecca’s library
 
-A small recipe-box website of saved recipes, articles, memes, and notes. It is plain HTML, CSS, and JavaScript, with no build step. Open `index.html` through a local web server (or the GitHub Pages address) and the box loads `data/items.json`.
+A small library of saved recipes, articles, memes, and notes. It is plain HTML, CSS, and JavaScript, with no build step. Open `index.html` through a local web server (or the GitHub Pages address) and the box loads `data/items.json`.
 
 Paths are relative, so the site works from a subpath such as `/rebecca/`.
 
@@ -39,4 +39,4 @@ After that, pushing to `main` publishes the site. For this repository the addres
 
 ## On a phone
 
-In Safari, open the site, tap Share, then **Add to Home Screen**. The icon is named **Recipe Box** and opens full screen, like a small app. The same icon can be installed on a laptop from the browser’s install prompt.
+In Safari, open the site, tap Share, then **Add to Home Screen**. The icon is named **Rebecca’s library** and opens full screen, like a small app. The same icon can be installed on a laptop from the browser’s install prompt.

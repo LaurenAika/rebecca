@@ -11,7 +11,7 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 
 const PIN_ICON = '<svg class="pin-icon" viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8.8 1.5 10 5.2l3.8.3-2.9 2.5.9 3.7L8 9.7 4.2 11.7l.9-3.7-2.9-2.5 3.8-.3L8 1.5Z"/></svg>';
 
-const PAGE_TITLE = "Rebecca’s Saves";
+const PAGE_TITLE = "Rebecca’s library";
 const BACK_ICON = '<svg class="back-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 const box = document.getElementById("box");
