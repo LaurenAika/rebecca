@@ -27,6 +27,7 @@ const searchClear = document.getElementById("search-clear");
 
 let items = [];
 let filter = "recent";
+let subcategory = "";
 let query = "";
 let ready = false;
 let cameFromList = false;
@@ -70,9 +71,11 @@ function normalize(raw) {
   if (!TYPES.some((entry) => entry.id === type)) return null;
   const title = String(raw.title || "").trim();
   if (!title) return null;
+  const subcategory = typeof raw.subcategory === "string" ? raw.subcategory.trim() : "";
   return {
     id: String(raw.id || title).trim(),
     type,
+    subcategory,
     title,
     summary: String(raw.summary || "").trim(),
     note: String(raw.note || "").trim(),
@@ -88,6 +91,7 @@ function haystack(item) {
     item.title,
     item.summary,
     item.note,
+    item.subcategory,
     item.type,
     meta.label,
     meta.tag,
@@ -100,9 +104,26 @@ function viewFilter() {
   return KNOWN_TABS.has(filter) ? filter : "recent";
 }
 
+function subcategoriesFor(type) {
+  const seen = [];
+  items.forEach((item) => {
+    if (item.type !== type || !item.subcategory || seen.includes(item.subcategory)) return;
+    seen.push(item.subcategory);
+  });
+  return seen;
+}
+
+function activeSubcategory() {
+  const current = viewFilter();
+  if (current === "recent" || !subcategory) return "";
+  return subcategoriesFor(current).includes(subcategory) ? subcategory : "";
+}
+
 function isMatch(item) {
   const current = viewFilter();
   if (current !== "recent" && item.type !== current) return false;
+  const group = activeSubcategory();
+  if (group && item.subcategory !== group) return false;
   const words = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
   if (!words.length) return true;
   const hay = haystack(item);
@@ -121,14 +142,18 @@ function countLabel(total) {
   return `${total} saved things`;
 }
 
+function tagText(item) {
+  const label = typeMeta(item.type).tag;
+  return item.subcategory ? `${label} · ${item.subcategory}` : label;
+}
+
 function metaHtml(item) {
-  const meta = typeMeta(item.type);
   const date = formatDate(item.date_saved);
   const note = item.note
     ? `<span class="pin">${PIN_ICON}${esc(item.note)}</span>`
     : "";
   const dateHtml = date ? `<span class="date">${esc(date)}</span>` : "";
-  return `<div class="meta"><span class="tag ${esc(item.type)}">${esc(meta.tag)}</span>${dateHtml}${note}</div>`;
+  return `<div class="meta"><span class="tag ${esc(item.type)}">${esc(tagText(item))}</span>${dateHtml}${note}</div>`;
 }
 
 function itemHash(id) {
@@ -195,6 +220,7 @@ function forgetStoredView() {
 
 function startFresh() {
   filter = "recent";
+  subcategory = "";
   query = "";
   searchInput.value = "";
   forgetStoredView();
@@ -203,13 +229,27 @@ function startFresh() {
 
 function showAllSaves() {
   filter = "recent";
+  subcategory = "";
   query = "";
   searchInput.value = "";
   updateClear();
   if (!itemIdFromHash()) render();
 }
 
+function subcategoryHtml(type) {
+  const names = subcategoriesFor(type);
+  if (!names.length) return "";
+  const current = activeSubcategory();
+  const chips = [{ id: "", label: "All" }].concat(names.map((name) => ({ id: name, label: name })));
+  const buttons = chips.map((chip) => {
+    const on = chip.id === current;
+    return `<button type="button" class="subcat-chip${on ? " on" : ""}" data-subcategory="${esc(chip.id)}" aria-pressed="${on ? "true" : "false"}">${esc(chip.label)}</button>`;
+  }).join("");
+  return `<div class="subcats" role="group" aria-label="Subcategories">${buttons}</div>`;
+}
+
 function render() {
+  subcategory = activeSubcategory();
   const current = viewFilter();
   const visible = items.filter(isMatch).sort(byNewest);
   countEl.textContent = countLabel(visible.length);
@@ -235,9 +275,19 @@ function render() {
     const message = query.trim()
       ? `Nothing in ${where} matches that.`
       : `Nothing saved in ${where} yet.`;
+    const chips = current === "recent" ? "" : subcategoryHtml(current);
+    const empty = `<div class="empty"><p>${esc(message)}</p><button type="button" class="show-all" data-show-all>Show all saves</button></div>`;
+    if (!chips) {
+      box.innerHTML = empty;
+      return;
+    }
+    const view = typeMeta(current);
     box.innerHTML =
-      `<div class="empty"><p>${esc(message)}</p>` +
-      `<button type="button" class="show-all" data-show-all>Show all saves</button></div>`;
+      `<section class="section ${esc(view.id)}" id="section-${esc(view.id)}">` +
+        `<header class="divider"><h2 class="tab-label">${esc(view.label)}</h2><span class="sec-count">0</span></header>` +
+        chips +
+        empty +
+      `</section>`;
     return;
   }
 
@@ -245,6 +295,7 @@ function render() {
   box.innerHTML =
     `<section class="section ${esc(view.id)}" id="section-${esc(view.id)}">` +
       `<header class="divider"><h2 class="tab-label">${esc(view.label)}</h2><span class="sec-count">${visible.length}</span></header>` +
+      subcategoryHtml(current) +
       `<div class="list">${visible.map(cardHtml).join("")}</div>` +
     `</section>`;
 }
@@ -330,6 +381,7 @@ function boot() {
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       filter = KNOWN_TABS.has(tab.dataset.type) ? tab.dataset.type : "recent";
+      subcategory = "";
       query = "";
       searchInput.value = "";
       updateClear();
@@ -345,6 +397,14 @@ function boot() {
     }
     if (event.target.closest("[data-show-all]")) {
       showAllSaves();
+      return;
+    }
+    const chip = event.target.closest("[data-subcategory]");
+    if (chip) {
+      subcategory = chip.getAttribute("data-subcategory") || "";
+      render();
+      const selected = box.querySelector(".subcat-chip.on");
+      if (selected) selected.focus();
       return;
     }
     if (event.target.closest("a.index-card")) cameFromList = true;

@@ -14,6 +14,7 @@ Each item is one object:
 | --- | --- |
 | `id` | A unique short name, such as `lemon-herb-roast-chicken`. |
 | `type` | One of `recipe`, `article`, `meme`, or `note`. |
+| `subcategory` | Optional group inside that type, such as `Brain Science Images`. Leave it out when a save has no group. |
 | `title` | The card heading. |
 | `summary` | A sentence or two. The card shows the first line; the detail page shows all of it. |
 | `note` | Optional personal reminder, shown as a yellow tag (for example `show Mom`). Use `""` to leave it off. |
@@ -21,7 +22,7 @@ Each item is one object:
 | `url` | The original link. It opens from the button on the detail page, in a new tab. |
 | `image` | A picture in this repo, such as `images/lemon-herb-roast-chicken.svg`. |
 
-The box opens on Recent with an empty search, newest day first. If two saves share a day, the one lower in this file comes first. Recipes, Articles, Memes, and Notes each show only that type, newest first. Choosing a tab clears the search. Search then looks through that tab only. Save the file and refresh. While the phone or laptop is online, a refresh shows the edit. Offline, the box shows the last version that was opened.
+The box opens on Recent with an empty search, newest day first. If two saves share a day, the one lower in this file comes first. Recipes, Articles, Memes, and Notes each show only that type, newest first. Choosing a tab clears the search. Search then looks through that tab only, including the subcategory text. When a type has any subcategories, that tab shows a row of filters under the heading: All, then each group. All still includes saves that have no subcategory. Save the file and refresh. While the phone or laptop is online, a refresh shows the edit. Offline, the box shows the last version that was opened.
 
 Pictures are drawings in `images/`. Add another SVG or a small PNG and point `image` at it. Do not use hotlinked photos.
 
