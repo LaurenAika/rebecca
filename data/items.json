@@ -1,5 +1,16 @@
 [
   {
+    "id": "foods-that-fight-inflammation",
+    "type": "article",
+    "subcategory": "Anti-Inflammatory",
+    "title": "Foods that fight inflammation",
+    "summary": "Harvard Health's guide to foods that calm inflammation (tomatoes, olive oil, leafy greens, nuts, fatty fish, fruit) and ones to limit (refined carbs, fried foods, sugary drinks, red and processed meat), with the Mediterranean diet as the easiest plan to follow.",
+    "note": "",
+    "date_saved": "2026-11-17",
+    "url": "https://www.health.harvard.edu/staying-healthy/foods-that-fight-inflammation",
+    "image": "images/foods-that-fight-inflammation.jpg"
+  },
+  {
     "id": "depression-brain-networks",
     "type": "article",
     "subcategory": "Brain Science Images",
