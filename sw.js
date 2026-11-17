@@ -1,7 +1,7 @@
 /* Online, the page, script, styles, and saves come from the network.
    Offline, the last copy that was opened is used. */
 
-const CACHE = "rebeccas-library-v10";
+const CACHE = "rebeccas-library-v11";
 
 const SHELL = [
   "./",
@@ -23,6 +23,7 @@ const SHELL = [
   "./fonts/nunito-800.woff2",
   "./fonts/nunito-italic-700.woff2",
   "./images/depression-brain-networks.jpg",
+  "./images/mental-health-diagnoses-misunderstood.jpg",
 ];
 
 function wantsNetworkFirst(url) {
