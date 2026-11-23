@@ -1,5 +1,16 @@
 [
   {
+    "id": "arfid-self-advocacy-workbook",
+    "type": "note",
+    "title": "The ARFID Self-Advocacy Workbook",
+    "summary": "A free Neurodivergent Insights workbook by Kaylyn Gray, with gentle prompts and templates to understand an ARFID setback, reduce shame, identify barriers, and communicate support needs.",
+    "note": "",
+    "date_saved": "2026-11-23",
+    "url": "https://neurodivergentinsights.com/workbook/arfid-self-advocacy-workbook",
+    "image": "images/arfid-self-advocacy-workbook.jpg",
+    "source_title": "Neurodivergent Insights"
+  },
+  {
     "id": "top-5-brain-supplements",
     "type": "article",
     "title": "These Top 5 Brain Supplements Can Help Sharpen Memory and Boost Cognition",
@@ -23,13 +34,13 @@
   {
     "id": "depression-brain-networks",
     "type": "article",
-    "subcategory": "Brain Science Images",
     "title": "Depression May Involve an Imbalance Between Two Important Brain Networks",
     "summary": "A Better Brain post on why depression can make it so hard to stop overthinking or concentrate, pointing to an imbalance between two important brain networks, along with other abnormalities.",
     "note": "",
     "date_saved": "2026-11-17",
     "url": "https://www.facebook.com/share/p/1KpAT3cdsF/",
-    "image": "images/depression-brain-networks.jpg"
+    "image": "images/depression-brain-networks.jpg",
+    "subcategory": "Brain Science Images"
   },
   {
     "id": "mental-health-diagnoses-misunderstood",
