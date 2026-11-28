@@ -97,5 +97,18 @@
     "url": "https://scienceillustrated.com/health/record-breaking-analysis-with-sensational-results-we-completely-misunderstood-mental-health-diagnoses",
     "image": "images/mental-health-diagnoses-misunderstood.jpg",
     "source_title": "Science Illustrated"
+  },
+  {
+    "id": "cannabis-5-recent-findings",
+    "type": "article",
+    "title": "5 recent scientific findings that change what we know about cannabis",
+    "summary": "National Geographic on new research suggesting cannabis may relieve pain less reliably than thought and carry bigger long-term risks to the lungs, heart, gut and mental health.",
+    "note": "",
+    "date_saved": "2026-11-27",
+    "url": "https://www.nationalgeographic.com/science/article/what-we-know-about-cannabis-new-research",
+    "image": "images/cannabis-5-recent-findings.jpg",
+    "source_title": "National Geographic",
+    "filed_from": "telegram",
+    "telegram_update_id": 523793873
   }
 ]
